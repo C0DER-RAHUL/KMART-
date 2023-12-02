@@ -1,0 +1,141 @@
+consider the student database :
+student(snum,sname,major,level,age)
+class(cname,meets_at,room_fid)
+faculty(fid,fname,deptid)
+enrolled(snum,cname)
+
+
+1. create the table and insert necessary records.
+
+-- Create the student table
+CREATE TABLE student (
+  snum INT PRIMARY KEY,
+  sname VARCHAR(50),
+  major VARCHAR(50),
+  level VARCHAR(10),
+  age INT
+);
+
+-- Insert sample records into the student table
+INSERT INTO student VALUES
+  (1, 'John Smith', 'Computer Science', 'Sophomore', 20),
+  (2, 'Jane Doe', 'Mathematics', 'Junior', 21),
+  (3, 'David Lee', 'Biology', 'Senior', 22),
+  (4, 'Sarah Johnson', 'History', 'Freshman', 19);
+
+-- Create the class table
+CREATE TABLE class (
+  cname VARCHAR(50) PRIMARY KEY,
+  meets_at TIME,
+  room_fid VARCHAR(10)
+);
+
+-- Insert sample records into the class table
+INSERT INTO class VALUES
+  ('Introduction to Computer Science', '10:00:00', 'MB101'),
+  ('Discrete Mathematics', '11:00:00', 'MB102'),
+  ('Molecular Biology', '13:00:00', 'SC201'),
+  ('American History', '14:00:00', 'HM301');
+
+-- Create the faculty table
+CREATE TABLE faculty (
+  fid INT PRIMARY KEY,
+  fname VARCHAR(50),
+  deptid INT
+);
+
+-- Insert sample records into the faculty table
+INSERT INTO faculty VALUES
+  (1, 'Professor Smith', 1),
+  (2, 'Professor Johnson', 2),
+  (3, 'Professor Lee', 3),
+  (4, 'Professor Davis', 4);
+
+-- Create the enrolled table
+CREATE TABLE enrolled (
+  snum INT,
+  cname VARCHAR(50),
+  PRIMARY KEY (snum, cname),
+  FOREIGN KEY (snum) REFERENCES student(snum),
+  FOREIGN KEY (cname) REFERENCES class(cname)
+);
+
+-- Insert sample records into the enrolled table
+INSERT INTO enrolled VALUES
+  (1, 'Introduction to Computer Science'),
+  (2, 'Introduction to Computer Science'),
+  (2, 'Discrete Mathematics'),
+  (3, 'Molecular Biology'),
+  (4, 'American History');
+
+
+
+
+
+
+
+
+
+2. write a pl/sql procedure to delete a class ,giving the room as a  test 
+the procedure by deleting classes scheduled in room no mb101 and mb102.
+
+
+CREATE OR REPLACE PROCEDURE delete_class_by_room(room VARCHAR) IS
+BEGIN
+  DELETE FROM class
+  WHERE room_fid = room;
+END;
+
+
+-- Test the procedure by deleting classes scheduled in room no mb101 and mb102
+EXECUTE delete_class_by_room('MB101');
+EXECUTE delete_class_by_room('MB102');
+
+
+
+3.write the followiing query
+
+a.
+ALTER TABLE student
+ADD CONSTRAINT check_major
+CHECK (major IN ('CS', 'IT', 'SE'));
+
+
+b.
+SELECT MAX(s.age) AS oldest_age
+FROM student s
+INNER JOIN enrolled e ON s.snum = e.snum
+INNER JOIN class c ON e.cname = c.cname
+INNER JOIN faculty f ON c.room_fid = f.fid
+WHERE s.major = 'cs' AND f.fname = 'Samuel';
+
+
+c.
+SELECT cname
+FROM class
+WHERE room_fid = 'R128'
+   OR cname IN (
+       SELECT cname
+       FROM enrolled
+       GROUP BY cname
+       HAVING COUNT(*) >= 5
+   );
+
+ 
+
+
+d.
+
+SELECT s.sname
+FROM student s
+INNER JOIN enrolled e1 ON s.snum = e1.snum
+INNER JOIN class c1 ON e1.cname = c1.cname
+INNER JOIN enrolled e2 ON s.snum = e2.snum
+INNER JOIN class c2 ON e2.cname = c2.cname
+WHERE c1.meets_at = c2.meets_at AND c1.cname <> c2.cname;
+
+
+e.
+SELECT level, AVG(age) AS avg_age
+FROM student
+GROUP BY level;

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>KMART's Login Form</title>
+	<link rel="stylesheet" type="text/css" href="style 2.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a81368914c.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<img class="wave" src="8.jpeg">
+	<div class="container">
+		<div class="img">
+			<img src="2.jpeg">
+		</div>
+		<div class="logo">
+			<img src="img/kmart.png" alt="">
+		</div>
+
+		<div class="text">
+			<p>Made With ❤️ By <span> RAHUL YADAV </span> </p>
+		</div>
+		<div class="login-content">
+			<form action="index 2.html">
+				<img src="1.jpeg">
+				<h2 class="title">Welcome</h2>
+           		<div class="input-div one">
+           		   <div class="i">
+           		   		<i class="fas fa-user"></i>
+           		   </div>
+           		   <div class="div">
+           		   		
+           		   		<input type="text" placeholder="Username" class="input" id="email" required/>
+					
+           		   </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+           		    	<i class="fas fa-lock"></i>
+           		   </div>
+           		   <div class="div">
+           		    	
+           		    	<input type="password" placeholder="Password(more than 8)" class="input" id="password"  required/>
+            	   </div>
+            	</div>
+            	<a href="#">Forgot Password?</a>
+            	<input type="submit" class="btn" value="Login" onclick= "validate()" /> 
+				<!-- <input type="submit" class="btn" value="SignUp" onclick= "validate1()" />  -->
+            </form>
+        </div>
+    </div>
+    <script>
+		function validate(){
+			
+			var password = document.getElementById("password");
+			var length = document.getElementById('length');
+
+			if(password.value.length >= 8){
+				window.location.assign("index.html");
+				alert("Login Successfully");
+					
+			}
+			else{
+				alert("Invalid Information ");
+				
+			}
+		}
+		function validate1(){
+			window.location.assign("indexss.html");
+		}
+	</script>
+</body>
+</html>
